@@ -1,4 +1,5 @@
 from datetime import datetime
+from article import Article
 
 
 class Panier:
@@ -20,3 +21,21 @@ class Panier:
             nouvel_article = Article(nom, prix, quantite, date_expiration)
             self.articles.append(nouvel_article)
         self.historique_stock.update(nom, quantite, datetime.now().strftime("%Y-%m-%d"), "add")
+
+
+
+    def retirerArticle(self, nom_article, quantite=None):
+        for article in self.articles:
+            if article.getNom() == nom_article:
+                quantite_initiale = article.getQuantite()
+                if quantite is None or quantite == quantite_initiale:
+                    self.articles.remove(article)
+                    self.historique_stock.update(nom_article, quantite_initiale, datetime.now().strftime("%Y-%m-%d"), "remove")
+                else:
+                    article.reduireStock(quantite)
+                    self.historique_stock.update(nom_article, quantite, datetime.now().strftime("%Y-%m-%d"), "remove")
+                return
+        raise ValueError("L'article n'est pas actuellement en stock.")
+        
+
+
