@@ -20,5 +20,3 @@ class Article:
     def getDateExpiration(self):
         return self.date_expiration
     
-    def setPrix(self, nouveau_prix):
-        self.prix = nouveau_prix
