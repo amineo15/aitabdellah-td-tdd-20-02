@@ -25,9 +25,10 @@ class Panier:
             raise ValueError("La réduction doit être supérieure à 0.")
         if any(coupon for coupon in self.coupons if coupon.article == article):
             raise ValueError("Le coupon a etait deja appliqué sur cet article.")
-        if any(coupon for coupon in self.coupons if coupon.name == name):
-            raise ValueError("Ce coupon a déjà été appliqué a un article.")
-        self.coupons.append(Coupon(name, reduction, article))
+        self.coupons.append(Coupon(name, reduction, article)) 
+        if article.getPrice() < 0:
+            raise ValueError("Le prix de l'article remisé ne peut pas être négatif.")
+    
 
 
     def ajouterArticle(self, prix, nom, quantite, date_expiration):
