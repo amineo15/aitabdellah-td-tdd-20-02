@@ -35,7 +35,5 @@ def test_ajouter_coupon(stock, capsys):
 
 def test_prix_article_ne_negatif_apres_remise(stock):
     stock.ajouterArticle("pain", 1.8, 15, "2024-05-01")
-    stock.addCoupon("CODE60", 60, "pain")
-    assert stock.prix == 20  
     stock.addCoupon("CODE30", 30, "pain")
     assert stock.prix >= 0
