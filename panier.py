@@ -16,6 +16,20 @@ class Panier:
 
 
 
+    def addCoupon(self, name, reduction, article=None):
+        if article is None:
+            if self.reduction is not None:
+                raise ValueError("Une réduction a déjà été appliquée.")
+            self.reduction = Coupon(name, reduction)
+        if reduction <= 0:
+            raise ValueError("La réduction doit être supérieure à 0.")
+        if any(coupon for coupon in self.coupons if coupon.article == article):
+            raise ValueError("Le coupon a etait deja appliqué sur cet article.")
+        if any(coupon for coupon in self.coupons if coupon.name == name):
+            raise ValueError("Ce coupon a déjà été appliqué a un article.")
+        self.coupons.append(Coupon(name, reduction, article))
+
+
     def ajouterArticle(self, prix, nom, quantite, date_expiration):
         trouve = False
         for article in self.articles:
@@ -44,16 +58,5 @@ class Panier:
         raise ValueError("L'article n'est pas actuellement en stock.")
     
 
-    def addCoupon(self, name, reduction, article=None):
-        if article is None:
-            if self.reduction is not None:
-                raise ValueError("Une réduction a déjà été appliquée.")
-            self.reduction = Coupon(name, reduction)
-        if reduction <= 0:
-            raise ValueError("La réduction doit être supérieure à 0.")
-        if any(coupon for coupon in self.coupons if coupon.article == article):
-            raise ValueError("Le coupon a etait deja appliqué sur cet article.")
-        if any(coupon for coupon in self.coupons if coupon.name == name):
-            raise ValueError("Ce coupon a déjà été appliqué a un article.")
-        self.coupons.append(Coupon(name, reduction, article))
+   
 
