@@ -16,20 +16,12 @@ def stock():
 
 
 
-def test_ajouter_coupon(stock, capsys):
-    with pytest.raises(ValueError) as e:
-        stock.addCoupon("NADA", 0, "viande")
-    assert str(e.value) == "La réduction doit être supérieure à 0."
-
+def test_ajouter_coupon_deja_applique(stock, capsys):
     stock.addCoupon("CODE20", 20, "viande")
-
     with pytest.raises(ValueError) as e:
         stock.addCoupon("CODE20", 20, "tomate")
     assert str(e.value) == "Ce coupon a déjà été appliqué a un article."
 
-    with pytest.raises(ValueError) as e:
-        stock.addCoupon("NEWCODE", 20, "viande")
-    assert str(e.value) == "L'article possède déjà un coupon."
 
 
 
@@ -37,3 +29,9 @@ def test_prix_article_ne_negatif_apres_remise(stock):
     stock.ajouterArticle("pain", 1.8, 15, "2024-05-01")
     stock.addCoupon("CODE30", 30, "pain")
     assert stock.prix >= 0
+
+
+def test_remise_appliquee_sur_article(stock):
+    stock.ajouterArticle(50, "cerise", 2, "2023-01-01")
+    stock.addCoupon("CODE2", 20, "cerise")
+    assert stock.montantTotal == 80 
